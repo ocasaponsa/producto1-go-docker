@@ -2,15 +2,18 @@ pipeline {
     agent any
 
     stages {
-        stage('Build Docker Image') {
+        stage('Check files') {
             steps {
-                sh 'docker build -t miapp .'
+                sh 'ls -la'
+                sh 'test -f Dockerfile'
+                sh 'test -f main.go'
+                sh 'test -f go.mod'
             }
         }
 
-        stage('Run Container') {
+        stage('Build Docker Image') {
             steps {
-                sh 'docker run -d -p 8081:8080 miapp'
+                sh 'docker build -t miapp .'
             }
         }
     }
